@@ -6,6 +6,7 @@ public class spaceship : MonoBehaviour
 {
     public GameObject missle;
     public float speed;
+    public GameObject gameOver;
 
     private int lives = 5;
     private Rigidbody2D rb2d;
@@ -44,6 +45,7 @@ public class spaceship : MonoBehaviour
         if(other.gameObject.GetComponent<meteor>() != null) {
             Destroy(other.gameObject);
             lives--;
+            StartCoroutine("changeColor");
         }
 
 
@@ -51,20 +53,26 @@ public class spaceship : MonoBehaviour
         {
             Destroy(other.gameObject);
             lives--;
+            StartCoroutine("changeColor");
         }
 
         if (lives < 1)
         {
-            this.gameObject.SetActive(false);
+            Instantiate(gameOver);
+            Destroy(this.gameObject);
+            
         }
     }
 
     private void OnGUI()
     {
         GUILayout.Label("Lives: " + lives.ToString());
-        if (lives < 1)
-        {
-            GUILayout.Label("GAMEOVER");
-        }
+
+    }
+
+    IEnumerator changeColor(){
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(1.0f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
