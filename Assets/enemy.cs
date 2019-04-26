@@ -5,6 +5,7 @@ using UnityEngine;
 public class enemy : MonoBehaviour {
 
     public float speed = 3;
+    private int lives = 3;
 
     public float verticalVelociy = 0;
     private Rigidbody2D rb2d;
@@ -42,6 +43,22 @@ public class enemy : MonoBehaviour {
         missle.GetComponent<missle>().isEnemy = true;
         Instantiate(missle);
         StartCoroutine("shoot");
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+
+        if (!other.GetComponent<missle>().isEnemy)
+        {
+            Destroy(other.gameObject);
+            lives--;
+        }
+
+        if (lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 

@@ -6,6 +6,8 @@ public class meteor : MonoBehaviour {
 
     public float speed = 1;
 
+    private int lives = 5;
+
     private Rigidbody2D rb2d;
 
 
@@ -24,11 +26,21 @@ public class meteor : MonoBehaviour {
         rb2d.velocity = (movement * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {   
+    void OnTriggerEnter2D(Collider2D other)
+    {
 
-        /*if (!other.GetComponent<missle>().isEnemy){
-            Destroy(other);
-        }*/
+
+        if (!other.GetComponent<missle>().isEnemy){
+            Destroy(other.gameObject);
+            lives--;
+        }
+
+        if (lives < 1){
+            Destroy(this.gameObject);
+        }
     }
+
+
+
+
 }

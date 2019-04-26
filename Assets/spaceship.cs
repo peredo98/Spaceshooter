@@ -7,6 +7,7 @@ public class spaceship : MonoBehaviour
     public GameObject missle;
     public float speed;
 
+    private int lives = 5;
     private Rigidbody2D rb2d;
 
 
@@ -37,4 +38,33 @@ public class spaceship : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if(other.gameObject.GetComponent<meteor>() != null) {
+            Destroy(other.gameObject);
+            lives--;
+        }
+
+
+        if (other.GetComponent<missle>().isEnemy)
+        {
+            Destroy(other.gameObject);
+            lives--;
+        }
+
+        if (lives < 1)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnGUI()
+    {
+        GUILayout.Label("Lives: " + lives.ToString());
+        if (lives < 1)
+        {
+            GUILayout.Label("GAMEOVER");
+        }
+    }
 }
